@@ -15,8 +15,8 @@ Steps:
 git clone https://github.com/duckietown/challenge-aido_LF-baseline-duckietown
 ```
 
-2) Change the simulation submodule to ai404/gym-duckietown on daffy
-3) Change the dt-core submodule to ai404/dt-core on branch daffy
+2) Change the simulation submodule to [ai404/gym-duckietown](https://github.com/ai404/gym-duckietown) on daffy
+3) Change the dt-core submodule to [ai404/dt-core](https://github.com/ai404/dt-core) on branch daffy
 4) Update submodules:
 ```
 git submodule init
@@ -53,12 +53,18 @@ cp /data/config/calibrations/camera_extrinsic/default.yaml /data/config/calibrat
 export DUCKIETOWN_ROOT=/duckietown
 rosrun complete_image_pipeline calibrate_extrinsics
 ```
+expected results:
+
+![alt text](https://github.com/ai404/sim_calibration_duckietown/raw/master/images/homography.jpg "calibrate_extrinsics")
 
 11) Change the map to `loop_empty` and restart the simulator
 ```
 export DUCKIETOWN_ROOT=/duckietown
 rosrun complete_image_pipeline single_image_pipeline
 ```
+expected results:
+
+![alt text](https://github.com/ai404/sim_calibration_duckietown/raw/master/images/projections.jpg "single_image_pipeline")
 
 # TODO
 
