@@ -228,3 +228,6 @@ If calibration worked properly, you should see something like the following expe
     <figcaption>Evaluating Extrinsic Calibration.</figcaption>
      <img src="projections.jpg" style='width: 90%'/>
 </figure>
+
+#### Shut down the container
+Control-C the Jupyter notebook, and Control-D the currently running container. Manually kill the docker containers if necessary with `docker ps` and `docker kill ![CONTAINER ID]`.
