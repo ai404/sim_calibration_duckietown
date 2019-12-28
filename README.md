@@ -150,7 +150,7 @@ Note that the simulator uses a value of `"default"` for `![robot_name]`.
 </figure>
 
 #### Shut down the container
-Control-C the currently running Jupyter notebook. Manually kill the docker containers if necessary with `docker ps` and `docker kill ![CONTAINER ID]`.
+Control-C the currently running Jupyter notebook, and Control-D the currently running container. Manually kill the docker containers if necessary with `docker ps` and `docker kill ![CONTAINER ID]`.
 
 ## Extrinsic Calibration
 
@@ -230,4 +230,4 @@ If calibration worked properly, you should see something like the following expe
 </figure>
 
 #### Shut down the container
-Control-C the Jupyter notebook, and Control-D the currently running container. Manually kill the docker containers if necessary with `docker ps` and `docker kill ![CONTAINER ID]`.
+Control-C the Jupyter notebook. Manually kill the docker containers if necessary with `docker ps` and `docker kill ![CONTAINER ID]`.
