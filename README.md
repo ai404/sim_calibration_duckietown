@@ -124,12 +124,19 @@ When it launches you will get a window similar to the one you get when calibrati
      <img src="int_calib_start.png" style='width: 90%'/>
 </figure>
 
-When calibration is succeded ([](#calibration-int-done)), the buttons `CALIBRATE` and `SAVE` will turn from grey to green:
+When calibration has enough images, the `CALIBRATE` button gets activated (will turn from grey to green). ([](#calibration-int-perform))
 
-* `SAVE` button generates a zip file at `/tmp/TODO` where you can find the images used to calibrate the camera's intrinsics as well as a yaml file with calculated parameters.
-* `CALIBRATE` writes the calculated parameters directly to the apropriate path at `/data/config/calibrations/camera_intrinsic/![robot_name].yaml` using the `set_camera_info` service.
+<figure id="calibration-int-perform">
+    <figcaption>Performing the intrinsic calibration.</figcaption>
+     <img src="int_calib_perform.png" style='width: 90%'/>
+</figure>
 
-QUESTION: should we use "robot_name" or just say "default" which is what it is I guess?
+When calibration is succeded ([](#calibration-int-done)), the `COMMIT` and `SAVE` buttons will turn from grey to green:
+
+* `SAVE` button generates a zip file at `/tmp/calibrationdata.tar.gz` where you can find the images used to calibrate the camera's intrinsics as well as a yaml file with calculated parameters.
+* `COMMIT` writes the calculated parameters directly to the apropriate path at `/data/config/calibrations/camera_intrinsic/![robot_name].yaml` using the `set_camera_info` service.
+
+the simulator uses a value of `"default"` for the ![robot_name].
 
 <figure id="calibration-int-done">
     <figcaption>Commiting the intrinsic calibration.</figcaption>
@@ -152,7 +159,7 @@ $ docker-compose up
 ### Change the default homography name
 The default name of the robot will interfere with default homography. To avoid this issue, we rename the default homography file.
 ```
-$ cp ../data/config/calibrations/camera_extrinsic/default.yaml ../data/config/calibrations/camera_extrinsic/default_homography.yaml
+$ cp /data/config/calibrations/camera_extrinsic/default.yaml /data/config/calibrations/camera_extrinsic/default_homography.yaml
 ```
 ### Set the project root folder
 To successfully save the calibration files, we must specify the project root folder:
@@ -181,6 +188,12 @@ Change the `map_name` parameter in `1_develop/utils/ros_helpers.py` to `"loop_em
 ### Run the docker image with the new map
 ```
 $ docker-compose up
+```
+
+### Set the project root folder
+To successfully save the calibration files, we must specify the project root folder:
+```
+$ export DUCKIETOWN_ROOT=/duckietown
 ```
 
 ### Run the evaluation procedure.
