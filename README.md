@@ -104,9 +104,9 @@ $ roslaunch pi_camera camera.launch veh:=default
 $ xhost + 
 ```
 ### Get the ID of the notebook container
-Get the Container ID of the container running from the `duckietown/dt-notebook:daffy` image. This can be done with the `docker ps` command.
+Get the container ID of the container running from the `duckietown/dt-notebook:daffy` image. This can be done with the `docker ps` command.
 
-### Connect to the docker container using the ID `![CONTAINER ID]` you just found
+### Connect to the docker container using the container ID you just found
 ```
 $ docker exec -it -u root -e DISPLAY=host.docker.internal:0 ![CONTAINER ID] /bin/bash
 ```
