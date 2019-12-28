@@ -55,7 +55,9 @@ $ docker-compose up
 
 ### Setup the workspace
 If the docker image runs properly, you will be given a link to access a jupyter notebook connected to the now-running container.
-Open the jupyter notebook by following the link in a web browser. From the notebook, open a terminal, and in it do the following:
+Open the jupyter notebook by following the link in a web browser. From the notebook, open a terminal, and perform the following commands in that terminal.
+
+Note: do not worry if you get a message saying "bash: catkin_ws/devel/setup.bash: No such file or directory" - we will deal with this in a couple of steps!
 
 #### Install missing packages
 
@@ -69,6 +71,7 @@ $ pip uninstall systemCmd
 $ git clone --single-branch --branch p3 https://github.com/AndreaCensi/system_cmd
 $ cd system_cmd
 $ python setup.py install
+$ cd ..
 ```
 ##### Install `compmake`
 ```
@@ -81,7 +84,7 @@ $ source catkin_ws/devel/setup.bash
 ```
 
 #### Shut down the container
-Control-C in the currently running container. Manually kill the docker containers if necessary with `docker ps` and `docker kill ![CONTAINER ID]`.
+Control-C the currently running Jupyter notebook. Manually kill the docker containers if necessary with `docker ps` and `docker kill ![CONTAINER ID]`.
 
 ## Intrinsic Calibration
 
@@ -90,15 +93,18 @@ Control-C in the currently running container. Manually kill the docker container
 Change the `map_name` parameter in `1_develop/utils/ros_helpers.py` from `"loop_empty"` to `"calibration_map_int"`.
 
 ### Run the docker image with the new map
+
+From the `1_develop` directory, run
 ```
 $ docker-compose up
 ```
 
 ### Open a terminal in the Jupyter notebook
-Run the camera service in a Jupyter notebook terminal.
+Run the camera service in the Jupyter notebook terminal.
 ```
 $ roslaunch pi_camera camera.launch veh:=default
 ```
+
 ### In a terminal on the local machine, disable access control or add localhost
 ```
 $ xhost + 
@@ -117,26 +123,26 @@ In this command prompt, run
 ```
 $ roslaunch pi_camera intrinsic_calibration.launch veh:=default
 ```
-When it launches you will get a window similar to the one you get when calibrating a real duckiebot. You can resize the window by dragging the bottom-right corner. ([](#calibration-int))
+When it launches you will get a window similar to the one you get when calibrating a real duckiebot. You can resize the window by dragging the bottom-right corner. The calibration will be performed automatically (it might take a minute!) ([](#calibration-int))
 
 <figure id="calibration-int">
     <figcaption>Starting the intrinsic calibration.</figcaption>
      <img src="int_calib_start.png" style='width: 90%'/>
 </figure>
 
-When calibration has enough images, the `CALIBRATE` button gets activated (will turn from grey to green). ([](#calibration-int-perform))
+When calibration has enough images, the `CALIBRATE` button will turn from grey to green. Click on the `CALIBRATE` button to perform distortion removal and intrinsic calibration. After calibration, the squares in the cube should appear rectified, and the horizon should appear flat. ([](#calibration-int-perform))
 
 <figure id="calibration-int-perform">
     <figcaption>Performing the intrinsic calibration.</figcaption>
      <img src="int_calib_perform.png" style='width: 90%'/>
 </figure>
 
-When calibration is succeded ([](#calibration-int-done)), the `COMMIT` and `SAVE` buttons will turn from grey to green:
+Once calibration has succeeded ([](#calibration-int-done)), the `COMMIT` and `SAVE` buttons will turn from grey to green:
 
 * `SAVE` button generates a zip file at `/tmp/calibrationdata.tar.gz` where you can find the images used to calibrate the camera's intrinsics as well as a yaml file with calculated parameters.
 * `COMMIT` writes the calculated parameters directly to the apropriate path at `/data/config/calibrations/camera_intrinsic/![robot_name].yaml` using the `set_camera_info` service.
 
-Note that the simulator uses a value of `"default"` for the ![robot_name].
+Note that the simulator uses a value of `"default"` for `![robot_name]`.
 
 <figure id="calibration-int-done">
     <figcaption>Commiting the intrinsic calibration.</figcaption>
@@ -144,7 +150,7 @@ Note that the simulator uses a value of `"default"` for the ![robot_name].
 </figure>
 
 #### Shut down the container
-Control-C in the currently running container. Manually kill the docker containers if necessary with `docker ps` and `docker kill ![CONTAINER ID]`.
+Control-C the Jupyter notebook, and Control-D the currently running container. Manually kill the docker containers if necessary with `docker ps` and `docker kill ![CONTAINER ID]`.
 
 ## Extrinsic Calibration
 
@@ -152,21 +158,32 @@ Control-C in the currently running container. Manually kill the docker container
 Change the `map_name` parameter in `1_develop/utils/ros_helpers.py` to `"calibration_map_ext"`.
 
 ### Run the docker image with the new map
+
+From the `1_develop` directory, run
 ```
 $ docker-compose up
 ```
 
-### Change the default homography name
+### Open a terminal in the Jupyter notebook
+In the Jupiter notebook terminal, do the following:
+
+#### Change the default homography name
 The default name of the robot will interfere with default homography. To avoid this issue, we rename the default homography file.
+
+```
+$ roslaunch pi_camera camera.launch veh:=default
+```
 ```
 $ cp /data/config/calibrations/camera_extrinsic/default.yaml /data/config/calibrations/camera_extrinsic/default_homography.yaml
 ```
-### Set the project root folder
+
+#### Set the project root folder
 To successfully save the calibration files, we must specify the project root folder:
 ```
 $ export DUCKIETOWN_ROOT=/duckietown
 ```
-### Run the extrinsic calibration pipeline
+
+#### Run the extrinsic calibration pipeline
 ```
 $ rosrun complete_image_pipeline calibrate_extrinsics
 ```
@@ -178,7 +195,7 @@ To see the effect of the calibration, look in the duckietown/out-calibrate-extri
 </figure>
 
 #### Shut down the container
-Control-C in the currently running container. Manually kill the docker containers if necessary with `docker ps` and `docker kill ![CONTAINER ID]`.
+Control-C the currently running Jupyter notebook. Manually kill the docker containers if necessary with `docker ps` and `docker kill ![CONTAINER ID]`.
 
 ## Evaluation and cleanup
 
