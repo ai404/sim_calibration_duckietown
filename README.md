@@ -80,6 +80,11 @@ $ source catkin_ws/devel/setup.bash
 
 Change the `map_name` parameter in `1_develop/utils/ros_helpers.py` from `![loop_empty]` to `![calibration_map_int]`.
 
+### open a terminal in the Jupyter notebook
+Run the camera service in this terminal
+```
+$ roslaunch pi_camera camera.launch veh:=default
+```
 ### In a terminal on the local machine, disable access control or add localhost
 ```
 $ xhost + 
@@ -93,15 +98,25 @@ $ docker exec -it -u root -e DISPLAY=host.docker.internal:0 ![container_id] /bin
 ```
 This will open a terminal in the container.
 
-### Run the camera service in this terminal
-```
-$ roslaunch pi_camera camera.launch veh:=default
-```
-### Open another terminal in the container and perform intrinsic calibration
+### Perform intrinsic calibration
 ```
 $ roslaunch pi_camera intrinsic_calibration.launch veh:=default
 ```
+When it launchs you will get a window similar to the one you get when calibrating a real duckiebot ([](#calibration-int))
 
+<figure id="calibration-int">
+    <figcaption>Starting the intrinsic calibration.</figcaption>
+     <img src="int_calib_start.png" style='width: 90%'/>
+</figure>
+When calibration is succeded ([](#calibration-int-done)) the buttons `CALIBRATE` and `SAVE` will activate:
+
+* `SAVE` button generates a zip file at `/tmp/TODO` where you can find the images used to calibrate the camera's intrinsics but also a yaml file with calculated parameters.
+* `CALIBRATE` writes directly the parameters to the apropriate path at `/data/config/calibrations/camera_intrinsic/![robot_name].yaml` using the `set_camera_info` service.
+
+<figure id="calibration-int-done">
+    <figcaption>Commiting the intrinsic calibration.</figcaption>
+     <img src="int_calib_done.png" style='width: 90%'/>
+</figure>
 ## Extrinsic Calibration
 ### Set extrinsic calibration map
 
