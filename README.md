@@ -163,12 +163,13 @@ From the `1_develop` directory, run
 ```
 $ docker-compose up
 ```
+and open a terminal in the resulting Jupyter notebook.
 
-### Open a terminal in the Jupyter notebook
-In the Jupiter notebook terminal, do the following:
 
-#### Change the default homography name
+### Change the default homography name
 The default name of the robot will interfere with default homography. To avoid this issue, we rename the default homography file.
+
+In the Jupiter notebook terminal, run
 
 ```
 $ roslaunch pi_camera camera.launch veh:=default
@@ -177,16 +178,18 @@ $ roslaunch pi_camera camera.launch veh:=default
 $ cp /data/config/calibrations/camera_extrinsic/default.yaml /data/config/calibrations/camera_extrinsic/default_homography.yaml
 ```
 
-#### Set the project root folder
-To successfully save the calibration files, we must specify the project root folder:
+### Set the project root folder
+To successfully save the calibration files, we must specify the project root folder. Again, in the Jupyter notebook terminal, run
 ```
 $ export DUCKIETOWN_ROOT=/duckietown
 ```
 
-#### Run the extrinsic calibration pipeline
+### Run the extrinsic calibration pipeline
+Finally, in the Jupyter notebook terminal, run
 ```
 $ rosrun complete_image_pipeline calibrate_extrinsics
 ```
+
 To see the effect of the calibration, look in the duckietown/out-calibrate-extrinsics directory - there should now be new images similar to those shown below ([](#calibrate-extrinsics))
 
 <figure id="calibrate-extrinsics">
@@ -194,7 +197,7 @@ To see the effect of the calibration, look in the duckietown/out-calibrate-extri
      <img src="homography.jpg" style='width: 90%'/>
 </figure>
 
-#### Shut down the container
+### Shut down the container
 Control-C the currently running Jupyter notebook. Manually kill the docker containers if necessary with `docker ps` and `docker kill ![CONTAINER ID]`.
 
 ## Evaluation and cleanup
