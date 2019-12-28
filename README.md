@@ -124,20 +124,30 @@ When it launches you will get a window similar to the one you get when calibrati
      <img src="int_calib_start.png" style='width: 90%'/>
 </figure>
 
-When calibration is succeded ([](#calibration-int-done)) the buttons `CALIBRATE` and `SAVE` will activate:
+When calibration is succeded ([](#calibration-int-done)), the buttons `CALIBRATE` and `SAVE` will turn from grey to green:
 
-* `SAVE` button generates a zip file at `/tmp/TODO` where you can find the images used to calibrate the camera's intrinsics but also a yaml file with calculated parameters.
-* `CALIBRATE` writes directly the parameters to the apropriate path at `/data/config/calibrations/camera_intrinsic/![robot_name].yaml` using the `set_camera_info` service.
+* `SAVE` button generates a zip file at `/tmp/TODO` where you can find the images used to calibrate the camera's intrinsics as well as a yaml file with calculated parameters.
+* `CALIBRATE` writes the calculated parameters directly to the apropriate path at `/data/config/calibrations/camera_intrinsic/![robot_name].yaml` using the `set_camera_info` service.
+
+QUESTION: should we use "robot_name" or just say "default" which is what it is I guess?
 
 <figure id="calibration-int-done">
     <figcaption>Commiting the intrinsic calibration.</figcaption>
      <img src="int_calib_done.png" style='width: 90%'/>
 </figure>
 
-## Extrinsic Calibration
-### Set extrinsic calibration map
+#### Shut down the container
+Control-C in the currently running container. Manually kill the docker containers if necessary with `docker ps` and `docker kill ![container_name]`.
 
-Change the `map_name` parameter in `1_develop/utils/ros_helpers.py` to `![calibration_map_ext]`.
+## Extrinsic Calibration
+
+### Set extrinsic calibration map
+Change the `map_name` parameter in `1_develop/utils/ros_helpers.py` to `"calibration_map_ext"`.
+
+### Run the docker image with the new map
+```
+$ docker-compose up
+```
 
 ### Change the default homography name
  The default name of the robot will interfere with default homography, we rename the default homography file to encounter the issue:
@@ -149,7 +159,7 @@ Also we need to specify the project root folder in which the calibration files w
 ```
 $ export DUCKIETOWN_ROOT=/duckietown
 ```
-### run the extrinsic calibration pipeline
+### Run the extrinsic calibration pipeline
 ```
 $ rosrun complete_image_pipeline calibrate_extrinsics
 ```
