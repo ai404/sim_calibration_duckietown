@@ -1,7 +1,7 @@
 
-# Camera Calibration on Duckietown simulator {#demo-sim-camera-calib status=ready}
+# Camera Calibration in the Duckietown simulator {#demo-sim-camera-calib status=ready}
 
-This Demo provides general instructions to perform camera calibration on duckietown simulator.
+This Demo provides general instructions to perform camera calibration in the Duckietown simulator.
 
 ## Step-By-Step Installation
 
@@ -24,9 +24,11 @@ $ cd challenge-aido_LF-baseline-duckietown
 ```
 $ ![your_favourite_editor] .gitmodules
 ```
-* change the simulation submodule URL from [duckietown/gym-duckietown](https://github.com/duckietown/gym-duckietown) to [ai404/gym-duckietown](https://github.com/ai404/gym-duckietown) on branch daffy.
+* change line 3 from from `https://github.com/duckietown/gym-duckietown.git` to `https://github.com/ai404/gym-duckietown.git`.
 
-* change the dt-core submodule URL from [duckietown/dt-core](https://github.com/duckietown/dt-core) to [ai404/dt-core](https://github.com/ai404/dt-core) on branch daffy.
+* change line 7 from `https://github.com/duckietown/dt-core.git` to `https://github.com/ai404/dt-core.git`.
+
+* save and close the file.
 
 #### Update submodules
 ```
@@ -35,6 +37,9 @@ $ git submodule init
 ```
 $ git submodule update --recursive
 ```
+
+Don't worry if you get an error saying that the "Server does not allow request for unadvertised object ... Direct fetching of that commit failed."
+
 #### Switch to daffy branch on all submodules
 ```
 $ git submodule foreach "(git checkout daffy; git pull)"
@@ -49,7 +54,8 @@ $ docker-compose up
 ```
 
 ### Setup the workspace
-On the simulator container open a terminal, and in it do the following:
+If the docker image runs properly, you will be given a link to access a jupyter notebook connected to the now-running container.
+Open the jupyter notebook by following the link in a web browser. From the notebook, open a terminal, and in it do the following:
 
 #### Install missing packages
 
@@ -74,14 +80,22 @@ $ catkin build --workspace catkin_ws
 $ source catkin_ws/devel/setup.bash
 ```
 
+#### Shut down the container
+Control-C in the currently running container. Manually kill the docker containers if necessary with `docker ps` and `docker kill ![container_name]`.
+
 ## Intrinsic Calibration
 
 ### Set intrinsic calibration map
 
-Change the `map_name` parameter in `1_develop/utils/ros_helpers.py` from `![loop_empty]` to `![calibration_map_int]`.
+Change the `map_name` parameter in `1_develop/utils/ros_helpers.py` from `"loop_empty"` to `"calibration_map_int"`.
 
-### open a terminal in the Jupyter notebook
-Run the camera service in this terminal
+### Run the docker image with the new map
+```
+$ docker-compose up
+```
+
+### Open a terminal in the Jupyter notebook
+Run the camera service in a Jupyter notebook terminal.
 ```
 $ roslaunch pi_camera camera.launch veh:=default
 ```
@@ -96,18 +110,20 @@ Get the Container ID of the container running from the `duckietown/dt-notebook:d
 ```
 $ docker exec -it -u root -e DISPLAY=host.docker.internal:0 ![container_id] /bin/bash
 ```
-This will open a terminal in the container.
+In this terminal you now have a command prompt directly into the container. We do this (as opposed to using a terminal from the jupyter notebook) so that we can view the GUI for duckiebot calibration.
 
 ### Perform intrinsic calibration
+In this command prompt, run
 ```
 $ roslaunch pi_camera intrinsic_calibration.launch veh:=default
 ```
-When it launchs you will get a window similar to the one you get when calibrating a real duckiebot ([](#calibration-int))
+When it launches you will get a window similar to the one you get when calibrating a real duckiebot. You can resize the window by dragging the bottom-right corner. ([](#calibration-int))
 
 <figure id="calibration-int">
     <figcaption>Starting the intrinsic calibration.</figcaption>
      <img src="int_calib_start.png" style='width: 90%'/>
 </figure>
+
 When calibration is succeded ([](#calibration-int-done)) the buttons `CALIBRATE` and `SAVE` will activate:
 
 * `SAVE` button generates a zip file at `/tmp/TODO` where you can find the images used to calibrate the camera's intrinsics but also a yaml file with calculated parameters.
@@ -117,6 +133,7 @@ When calibration is succeded ([](#calibration-int-done)) the buttons `CALIBRATE`
     <figcaption>Commiting the intrinsic calibration.</figcaption>
      <img src="int_calib_done.png" style='width: 90%'/>
 </figure>
+
 ## Extrinsic Calibration
 ### Set extrinsic calibration map
 
