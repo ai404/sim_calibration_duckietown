@@ -150,12 +150,12 @@ $ docker-compose up
 ```
 
 ### Change the default homography name
- The default name of the robot will interfere with default homography, we rename the default homography file to encounter the issue:
+The default name of the robot will interfere with default homography. To avoid this issue, we rename the default homography file.
 ```
-$ cp /data/config/calibrations/camera_extrinsic/default.yaml /data/config/calibrations/camera_extrinsic/default_homography.yaml
+$ cp ../data/config/calibrations/camera_extrinsic/default.yaml ../data/config/calibrations/camera_extrinsic/default_homography.yaml
 ```
 ### Set the project root folder
-Also we need to specify the project root folder in which the calibration files will be saved:
+To successfully save the calibration files, we must specify the project root folder:
 ```
 $ export DUCKIETOWN_ROOT=/duckietown
 ```
@@ -163,19 +163,31 @@ $ export DUCKIETOWN_ROOT=/duckietown
 ```
 $ rosrun complete_image_pipeline calibrate_extrinsics
 ```
-
-You should expect to get a similar result as in ([](#calibrate-extrinsics))
+To see the effect of the calibration, look in the duckietown/out-calibrate-extrinsics directory - there should now be new images similar to those shown below ([](#calibrate-extrinsics))
 
 <figure id="calibrate-extrinsics">
-    <figcaption>The image used for Extrinsic Calibration.</figcaption>
+    <figcaption>Extrinsic Calibration</figcaption>
      <img src="homography.jpg" style='width: 90%'/>
 </figure>
 
-### Change the map to `loop_empty` and restart the simulator
+#### Shut down the container
+Control-C in the currently running container. Manually kill the docker containers if necessary with `docker ps` and `docker kill ![container_name]`.
+
+## Evaluation and cleanup
+
+### Reset to the default map
+Change the `map_name` parameter in `1_develop/utils/ros_helpers.py` to `"loop_empty"`.
+
+### Run the docker image with the new map
+```
+$ docker-compose up
+```
+
+### Run the evaluation procedure.
 ```
 $ rosrun complete_image_pipeline single_image_pipeline
 ```
-expected results ([](#single-image-pipeline))
+If calibration worked properly, you should see something like the following expected results ([](#single-image-pipeline))
 
 <figure id="single-image-pipeline">
     <figcaption>Evaluating Extrinsic Calibration.</figcaption>
