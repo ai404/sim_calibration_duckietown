@@ -46,7 +46,7 @@ $ git submodule foreach "(git checkout daffy; git pull)"
 ```
 ### Build Docker Image
 
-cd to `1_develop` and build the docker images:
+Navigate to the `1_develop` directory and build the docker images:
 ```
 $ cd 1_develop
 $ docker-compose build
@@ -81,7 +81,7 @@ $ source catkin_ws/devel/setup.bash
 ```
 
 #### Shut down the container
-Control-C in the currently running container. Manually kill the docker containers if necessary with `docker ps` and `docker kill ![container_name]`.
+Control-C in the currently running container. Manually kill the docker containers if necessary with `docker ps` and `docker kill ![CONTAINER ID]`.
 
 ## Intrinsic Calibration
 
@@ -106,9 +106,9 @@ $ xhost +
 ### Get the ID of the notebook container
 Get the Container ID of the container running from the `duckietown/dt-notebook:daffy` image. This can be done with the `docker ps` command.
 
-### Connect to the docker container using the ID `![container_id]` you just found
+### Connect to the docker container using the ID `![CONTAINER ID]` you just found
 ```
-$ docker exec -it -u root -e DISPLAY=host.docker.internal:0 ![container_id] /bin/bash
+$ docker exec -it -u root -e DISPLAY=host.docker.internal:0 ![CONTAINER ID] /bin/bash
 ```
 In this terminal you now have a command prompt directly into the container. We do this (as opposed to using a terminal from the jupyter notebook) so that we can view the GUI for duckiebot calibration.
 
@@ -136,7 +136,7 @@ When calibration is succeded ([](#calibration-int-done)), the `COMMIT` and `SAVE
 * `SAVE` button generates a zip file at `/tmp/calibrationdata.tar.gz` where you can find the images used to calibrate the camera's intrinsics as well as a yaml file with calculated parameters.
 * `COMMIT` writes the calculated parameters directly to the apropriate path at `/data/config/calibrations/camera_intrinsic/![robot_name].yaml` using the `set_camera_info` service.
 
-the simulator uses a value of `"default"` for the ![robot_name].
+Note that the simulator uses a value of `"default"` for the ![robot_name].
 
 <figure id="calibration-int-done">
     <figcaption>Commiting the intrinsic calibration.</figcaption>
@@ -144,7 +144,7 @@ the simulator uses a value of `"default"` for the ![robot_name].
 </figure>
 
 #### Shut down the container
-Control-C in the currently running container. Manually kill the docker containers if necessary with `docker ps` and `docker kill ![container_name]`.
+Control-C in the currently running container. Manually kill the docker containers if necessary with `docker ps` and `docker kill ![CONTAINER ID]`.
 
 ## Extrinsic Calibration
 
@@ -178,7 +178,7 @@ To see the effect of the calibration, look in the duckietown/out-calibrate-extri
 </figure>
 
 #### Shut down the container
-Control-C in the currently running container. Manually kill the docker containers if necessary with `docker ps` and `docker kill ![container_name]`.
+Control-C in the currently running container. Manually kill the docker containers if necessary with `docker ps` and `docker kill ![CONTAINER ID]`.
 
 ## Evaluation and cleanup
 
