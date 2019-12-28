@@ -78,7 +78,7 @@ $ source catkin_ws/devel/setup.bash
 
 ### Set intrinsic calibration map
 
-Change the map in Line 13 of `1_develop/utils/ros_helpers.py` from `![loop_empty]` to `![calibration_map_int]`.
+Change the `map_name` parameter in `1_develop/utils/ros_helpers.py` from `![loop_empty]` to `![calibration_map_int]`.
 
 ### In a terminal on the local machine, disable access control or add localhost
 ```
@@ -105,7 +105,7 @@ $ roslaunch pi_camera intrinsic_calibration.launch veh:=default
 ## Extrinsic Calibration
 ### Set extrinsic calibration map
 
-Change the map in Line 13 of `1_develop/utils/ros_helpers.py` to `![calibration_map_ext]`.
+Change the `map_name` parameter in `1_develop/utils/ros_helpers.py` to `![calibration_map_ext]`.
 
 ### Change the default homography name
  The default name of the robot will interfere with default homography, we rename the default homography file to encounter the issue:
