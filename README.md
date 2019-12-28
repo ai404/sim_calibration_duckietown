@@ -229,5 +229,7 @@ If calibration worked properly, you should see something like the following expe
      <img src="projections.jpg" style='width: 90%'/>
 </figure>
 
-#### Shut down the container
+The calculated extrinsic parameters are saved at `/data/config/calibrations/camera_extrinsic/default.yaml`
+
+### Shut down the container
 Control-C the Jupyter notebook. Manually kill the docker containers if necessary with `docker ps` and `docker kill ![CONTAINER ID]`.
