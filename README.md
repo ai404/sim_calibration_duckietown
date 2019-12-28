@@ -169,11 +169,13 @@ and open a terminal in the resulting Jupyter notebook.
 ### Change the default homography name
 The default name of the robot will interfere with default homography. To avoid this issue, we rename the default homography file.
 
-In the Jupiter notebook terminal, run
+In the Jupyter notebook terminal, run
 
 ```
 $ roslaunch pi_camera camera.launch veh:=default
 ```
+
+Now, open a second Jupyter notebook terminal (from the same place you opened the first one, http://127.0.0.1:8888/tree), and run
 ```
 $ cp /data/config/calibrations/camera_extrinsic/default.yaml /data/config/calibrations/camera_extrinsic/default_homography.yaml
 ```
