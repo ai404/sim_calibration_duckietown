@@ -24,9 +24,9 @@ $ cd challenge-aido_LF-baseline-duckietown
 ```
 $ ![your_favourite_editor] .gitmodules
 ```
-* change line 3 from from `https://github.com/duckietown/gym-duckietown.git` to `https://github.com/ai404/gym-duckietown.git`.
+* change the url in line 3 from `https://github.com/duckietown/gym-duckietown.git` to `https://github.com/ai404/gym-duckietown.git`.
 
-* change line 7 from `https://github.com/duckietown/dt-core.git` to `https://github.com/ai404/dt-core.git`.
+* change the url in line 7 from `https://github.com/duckietown/dt-core.git` to `https://github.com/ai404/dt-core.git`.
 
 * save and close the file.
 
